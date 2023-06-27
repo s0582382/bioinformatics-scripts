@@ -39,6 +39,16 @@ def run_hivnetworkcsv(csv_input, csv_output):
     except subprocess.CalledProcessError as e:
         print(f"Error executing Hivnetworkcsv command: {e}")
 
+def run_hivnetworkcsv(csv_input, csv_output):
+    # Define the Hivnetworkcsv command
+    hivnetworkcsv_cmd2 = f"hivnetworkcsv -i {csv_input} -j -O {json_output}" # for JSON output
+
+    try:
+        subprocess.run(hivnetworkcsv_cmd2, shell=True, check=True)
+        print("Hivnetworkcsv command 2 executed successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing Hivnetworkcsv command 2: {e}")
+
 def main():
     # Check if the correct number of arguments is provided
     if len(sys.argv) != 3:
@@ -51,6 +61,9 @@ def main():
     
     # Get the list of files in the source folder
     files = os.listdir(source_folder)
+
+    # Initialize iteration counter
+    iteration = 1
     
     # Iterate over the files in the source folder
     for file in files:
@@ -64,11 +77,16 @@ def main():
     run_hivtrace(destination_file)
         
     # Define the input and output paths for Hivnetworkcsv
-    csv_input = destination_file + ".hxb2.prrt.csv"
-    csv_output = "network.csv"
+    csv_input = destination_file + "_user.tn93output.csv"
+
+    csv_output = f"{iteration}_network.csv"
+    json_outout = f"{iteration}_network.json"
         
     # Run the Hivnetworkcsv command using the generated CSV file
     run_hivnetworkcsv(csv_input, csv_output)
+    run_hivnetworkcsv(csv_input, json_outout)
+
+    iteration += 1
 
 if __name__ == "__main__":
     main()
