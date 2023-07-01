@@ -39,7 +39,7 @@ def run_hivnetworkcsv(csv_input, csv_output):
     except subprocess.CalledProcessError as e:
         print(f"Error executing Hivnetworkcsv command: {e}")
 
-def run_hivnetworkcsv(csv_input, csv_output):
+def run_hivnetworkcsv_json(csv_input, json_output):
     # Define the Hivnetworkcsv command
     hivnetworkcsv_cmd2 = f"hivnetworkcsv -i {csv_input} -j -O {json_output}" # for JSON output
 
@@ -73,20 +73,20 @@ def main():
         # Append the content of the FASTA file to the destination file
         append_fasta(source_file, destination_file)
         
-    # Run the Hivtrace command to generate the CSV file
-    run_hivtrace(destination_file)
+        # Run the Hivtrace command to generate the CSV file
+        run_hivtrace(destination_file)
         
-    # Define the input and output paths for Hivnetworkcsv
-    csv_input = destination_file + "_user.tn93output.csv"
+        # Define the input and output paths for Hivnetworkcsv
+        csv_input = destination_file + "_user.tn93output.csv"
 
-    csv_output = f"{iteration}_network.csv"
-    json_outout = f"{iteration}_network.json"
+        csv_output = f"{iteration}_network.csv"
+        json_output = f"{iteration}_network.json"
         
-    # Run the Hivnetworkcsv command using the generated CSV file
-    run_hivnetworkcsv(csv_input, csv_output)
-    run_hivnetworkcsv(csv_input, json_outout)
+        # Run the Hivnetworkcsv command using the generated CSV file
+        run_hivnetworkcsv(csv_input, csv_output)
+        run_hivnetworkcsv_json(csv_input, json_outout)
 
-    iteration += 1
+        iteration += 1
 
 if __name__ == "__main__":
     main()
